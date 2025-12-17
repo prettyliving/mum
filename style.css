@@ -1,0 +1,266 @@
+/* ===========================
+   Global Styles
+=========================== */
+:root {
+  --cream: #FAF7F2;
+  --sage: #C9D6C2;
+  --gold: #C9A24D;
+  --ink: #3A3A3A;
+  --pine-green: #2E4A32;
+  --golden-beige: #D9B67A;
+  --fire-bg: #3a2b1f;
+  --fire-text: white;
+  --muted-red: #A64032;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* ===========================
+   Header / Nav
+=========================== */
+header {
+  background: var(--pine-green);
+  color: var(--cream);
+  padding: 1.2rem;
+}
+
+nav a, nav button {
+  color: var(--golden-beige);
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  margin: 0 0.6rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
+   Main content
+=========================== */
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* ===========================
+   Footer
+=========================== */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.1rem;
+}
+
+/* ===========================
+   Snow
+=========================== */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  font-size: 1rem;
+  animation: fall linear infinite;
+  pointer-events: none;
+  color: white;
+  z-index: 50;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
+}
+
+/* ===========================
+   Photo Gallery
+=========================== */
+.photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.photo-gallery img, .photo-gallery video {
+  border-radius: 12px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+}
+
+/* ===========================
+   Calendar
+=========================== */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
+  gap: 15px;
+  max-width: 700px;
+  margin: auto;
+}
+
+.calendar-item {
+  position: relative;
+}
+
+.door {
+  background: white;
+  border-radius: 18px;
+  padding: 30px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+
+.door:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.door.fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.surprise {
+  display: none;
+  padding: 18px;
+  border-radius: 16px;
+  line-height: 1.5;
+  animation: fadeIn 1s forwards;
+}
+
+.note {
+  background: var(--cream);
+  font-family: 'Caveat', cursive;
+}
+
+.note::before {
+  content: "💌 ";
+}
+
+.bath {
+  background: var(--sage);
+  font-family: 'Caveat', cursive;
+}
+
+.bath::before {
+  content: "🛁 ";
+}
+
+.final {
+  border: 2px solid var(--gold);
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes glow {
+  0%,100%{ box-shadow: 0 0 10px rgba(201,162,77,0.4); }
+  50%{ box-shadow: 0 0 20px rgba(201,162,77,0.8); }
+}
+
+/* ===========================
+   Fireplace
+=========================== */
+.fireplace-container {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  background: var(--fire-bg);
+  border-radius: 12px 12px 6px 6px;
+  box-shadow: inset 0 -25px 50px #000;
+  overflow: hidden;
+  margin: auto;
+}
+
+.log {
+  position: absolute;
+  bottom: 10px;
+  height: 20px;
+  background: #5a3a22;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #000 inset;
+}
+
+.flame {
+  position: absolute;
+  bottom: 30px;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: flicker 1s infinite ease-in-out;
+  z-index: 2;
+}
+
+.flame.layer2 { opacity:0.5; animation-duration:1.5s; }
+.flame.layer3 { opacity:0.35; animation-duration:2s; }
+
+@keyframes flicker {
+  0%{transform:translateX(0) scaleY(1);opacity:0.7;}
+  25%{transform:translateX(-5px) scaleY(1.2);opacity:1;}
+  50%{transform:translateX(5px) scaleY(1);opacity:0.8;}
+  75%{transform:translateX(-3px) scaleY(0.9);opacity:1;}
+  100%{transform:translateX(0) scaleY(1);opacity:0.7;}
+}
+
+.ember {
+  position: absolute;
+  bottom: 35px;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle,#ffcc33,#ff3300);
+  border-radius: 50%;
+  opacity: 0.9;
+  animation: emberRise 2s linear infinite;
+}
+
+@keyframes emberRise {
+  0%{transform:translateY(0) scale(1);opacity:0.8;}
+  100%{transform:translateY(-100px) scale(0.5);opacity:0;}
+}
+
+.fireplace-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  color: var(--fire-text);
+  opacity: 0.9;
+  pointer-events: none;
+}
