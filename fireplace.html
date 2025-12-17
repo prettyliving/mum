@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fireplace</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+<h1>Fireplace</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="calendar.html">Calendar</a>
+<a href="fireplace.html">Fireplace</a>
+<a href="momscorner.html">Mom’s Corner</a>
+<button id="snowToggle">❄️</button>
+</nav>
+</header>
+
+<main>
+  <div class="fireplace-container" id="fireplace">
+    <div class="fireplace-text">Sit back, relax, and just enjoy the flames 🔥</div>
+  </div>
+</main>
+
+<footer>made with love for my favorite mom</footer>
+
+<script>
+const PASSWORD="chunkymonkey";
+if(!localStorage.getItem("unlocked")){
+  const input=prompt("This space is just for you 💛");
+  if(input!==PASSWORD){document.body.innerHTML="<h2 style='text-align:center;margin-top:20vh'>Not quite 🤍</h2>"; throw new Error("Locked");}
+  localStorage.setItem("unlocked","true");
+}
+
+/* Logs */
+const fireplace=document.getElementById("fireplace");
+for(let i=0;i<7;i++){
+  const log=document.createElement("div"); log.className="log";
+  const width=60+Math.random()*40;
+  const left=Math.random()*(fireplace.clientWidth-width);
+  const rotation=(Math.random()*20)-10;
+  const bottom=10+Math.random()*10;
+  log.style.width=width+"px"; log.style.left=left+"px"; log.style.bottom=bottom+"px"; log.style.transform=`rotate(${rotation}deg)`;
+  fireplace.appendChild(log);
+}
+
+/* Flames */
+function createFlame(layer){
+  const flame=document.createElement("div"); flame.className="flame "+layer;
+  flame.style.left=Math.random()*90+"%"; flame.style.width=(5+Math.random()*12)+"px"; flame.style.height=(20+Math.random()*50)+"px";
+  flame.style.background=`radial-gradient(ellipse at bottom,#ff${Math.floor(100+Math.random()*155).toString(16)}00,#ff0000)`;
+  fireplace.appendChild(flame);
+  setTimeout(()=>flame.remove(),2000);
+}
+setInterval(()=>createFlame(''),120);
+setInterval(()=>createFlame('layer2'),200);
+setInterval(()=>createFlame('layer3'),300);
+
+/* Embers */
+function createEmber(){const ember=document.createElement("div"); ember.className="ember"; ember.style.left=Math.random()*90+"%"; fireplace.appendChild(ember); setTimeout(()=>ember.remove(),2000);}
+setInterval(createEmber,250);
+
+/* Snow */
+const Snow=(()=>{
+  let interval=null, snowing=false;
+  function createSnowflake(){const snow=document.createElement("div"); snow.className="snowflake"; snow.innerText="❄"; snow.style.left=Math.random()*100+"vw"; snow.style.fontSize=(8+Math.random()*12)+"px"; snow.style.opacity=0.4+Math.random()*0.6; snow.style.animationDuration=4+Math.random()*6+"s"; document.body.appendChild(snow); setTimeout(()=>snow.remove(),12000);}
+  function start(){if(interval)return; interval=setInterval(createSnowflake,300); snowing=true;}
+  function stop(){clearInterval(interval); interval=null; snowing=false; document.querySelectorAll(".snowflake").forEach(s=>s.remove());}
+  function toggle(){snowing?stop():start();}
+  return {start, stop, toggle};
+})();
+document.addEventListener("DOMContentLoaded",()=>Snow.start());
+document.getElementById("snowToggle").addEventListener("click",()=>Snow.toggle());
+</script>
+
+</body>
+</html>

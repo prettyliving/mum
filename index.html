@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>For My Favorite Mom</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+<h1>For My Favorite Mom</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="calendar.html">Calendar</a>
+  <a href="fireplace.html">Fireplace</a>
+  <a href="momscorner.html">Mom’s Corner</a>
+  <button id="snowToggle">❄️</button>
+</nav>
+</header>
+
+<main>
+<p>
+  You are the woman who says be careful<br>
+  and then gravity listens harder.<br>
+  Finland beneath your boots,<br>
+  ice slick with confidence,<br>
+  me watching you fall and laughing<br>
+  not because it was funny<br>
+  but because you got up first<br>
+  and brushed the snow off like it owed you money.<br>
+  You are the woman who trips again<br>
+  years later<br>
+  at the Hard Rock guitar hotel<br>
+  Different country. Same mom.<br>
+  Still upright before the echo finishes laughing.<br>
+  You taught me love without lectures.<br>
+  It arrived folded in grocery bags,<br>
+  in rides that ran late,<br>
+  in the way you kept going<br>
+  even when “tired” wasn’t the word anymore.<br>
+  The hard parts hum beneath you<br>
+  low, steady, undeniable<br>
+  like proof you survived your own storms.<br>
+  You are sarcasm with a halo.<br>
+  Soft hands, steel spine.<br>
+  Chaos wrapped in coziness.<br>
+  The kind of woman who doesn’t announce strength<br>
+  because she’s too busy using it.<br>
+  I love you in the way one loves gravity<br>
+  not always gentle,<br>
+  always there,<br>
+  holding me down when I might have floated off<br>
+  and reminding me where home is<br>
+  without ever asking.<br>
+  You fell.<br>
+  You stood.<br>
+  You laughed.<br>
+  You carried on.<br>
+  And somehow the world kept turning<br>
+  because you told it to.<br>
+  I look at you and feel awe<br>
+  the way mountains must feel<br>
+  when they realize they’re standing next to the sky.<br>
+  So here’s the truth, clean and loud<br>
+  You didn’t just raise me.<br>
+  You are the story.<br>
+</p>
+<h2>Photo Memories</h2>
+<div id="photoGallery" class="photo-gallery"></div>
+</main>
+
+<footer>made with love for my favorite mom</footer>
+
+<script>
+const PASSWORD="chunkymonkey";
+if(!localStorage.getItem("unlocked")){
+  const input=prompt("This space is just for you 💛");
+  if(input!==PASSWORD){
+    document.body.innerHTML="<h2 style='text-align:center;margin-top:20vh'>Not quite 🤍</h2>"; 
+    throw new Error("Locked");
+  }
+  localStorage.setItem("unlocked","true");
+}
+
+/* Photo Gallery */
+const memoryFiles=[
+  {src:"images/mom1.jpeg", w:200,h:300},{src:"images/mom2.jpeg", w:200,h:250},{src:"images/mom3.JPG", w:400,h:300},{src:"images/mom4.JPG", w:190,h:350},
+  {src:"images/mom5.jpeg", w:180,h:140},{src:"images/mom6.jpeg", w:220,h:180},{src:"images/mom7.jpeg", w:230,h:300},{src:"images/mom8.jpeg", w:400,h:300},
+  {src:"images/mom9.MOV", w:220,h:150},{src:"images/mom0.MOV", w:200,h:180}
+];
+const gallery=document.getElementById("photoGallery");
+memoryFiles.forEach(item=>{
+  const ext=item.src.split('.').pop().toLowerCase();
+  let el=["mp4","mov","webm"].includes(ext)?document.createElement("video"):document.createElement("img");
+  if(el.tagName==="VIDEO"){el.src=item.src; el.autoplay=true; el.loop=true; el.muted=true; el.playsInline=true;}
+  else el.src=item.src;
+  el.style.width=item.w+"px"; el.style.height=item.h+"px"; el.style.borderRadius="12px"; el.style.boxShadow="0 10px 22px rgba(0,0,0,0.18)";
+  gallery.appendChild(el);
+});
+
+/* Unified Snow Script */
+const Snow=(()=>{
+  let interval=null, snowing=false;
+  function createSnowflake(){const snow=document.createElement("div"); snow.className="snowflake"; snow.innerText="❄"; snow.style.left=Math.random()*100+"vw"; snow.style.fontSize=(8+Math.random()*12)+"px"; snow.style.opacity=0.4+Math.random()*0.6; snow.style.animationDuration=4+Math.random()*6+"s"; document.body.appendChild(snow); setTimeout(()=>snow.remove(),12000);}
+  function start(){if(interval)return; interval=setInterval(createSnowflake,300); snowing=true;}
+  function stop(){clearInterval(interval); interval=null; snowing=false; document.querySelectorAll(".snowflake").forEach(s=>s.remove());}
+  function toggle(){snowing?stop():start();}
+  return {start, stop, toggle};
+})();
+document.addEventListener("DOMContentLoaded",()=>Snow.start());
+const snowBtn=document.getElementById("snowToggle");
+if(snowBtn)snowBtn.addEventListener("click",()=>Snow.toggle());
+</script>
+
+</body>
+</html>

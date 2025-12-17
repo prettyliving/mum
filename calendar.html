@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>December Moments</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+<h1 id="title">December Moments</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="calendar.html">Calendar</a>
+  <a href="fireplace.html">Fireplace</a>
+  <a href="momscorner.html">Mom’s Corner</a>
+  <button id="snowToggle">❄️</button>
+</nav>
+</header>
+
+<div id="progress">
+<div>December warmth: <span id="count">0</span>/24</div>
+<div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+</div>
+
+<main>
+<div id="calendar"></div>
+</main>
+
+<footer>made with love for <span>my favorite mom</span></footer>
+
+<script>
+const PASSWORD="chunkymonkey";
+if(!localStorage.getItem("unlocked")){
+  const input=prompt("This space is just for you 💛");
+  if(input!==PASSWORD){
+    document.body.innerHTML="<h2 style='text-align:center;margin-top:20vh'>Not quite 🤍</h2>"; 
+    throw new Error("Locked");
+  }
+  localStorage.setItem("unlocked","true");
+}
+
+document.getElementById("title").onclick=()=>{document.getElementById("title").innerText="Hi Mom 💛";};
+
+const surprises=[
+  {type:"note",text:"You survived another year like a boss. I love you."},
+  {type:"bath",text:"Homemade Jasmine sugar scrub — soft skin, main character energy."},
+  {type:"note",text:"You are doing amazing considering everything."},
+  {type:"bath",text:"Homemade bath salts — For when you need the world to stop."},
+  {type:"note",text:"Remember to breathe. You don’t have to earn rest."},
+  {type:"bath",text:"Mini rose bath salts + sugar scrub, tied with a tiny bow."},
+  {type:"note",text:"You carried more than you should have—and you’re still standing."},
+  {type:"bath",text:"Extra-cozy bath salt blend — calm over everything."},
+  {type:"note",text:"WE’RE GOING DOWN, WE’RE YELLING TIMBER."},
+  {type:"bath",text:"Flower soap — quietly powerful."},
+  {type:"note",text:"You don’t need to be strong today. Existing counts."},
+  {type:"bath",text:"Could Use a Hug bath salts."},
+  {type:"note",text:"You did the job of two people with half the sleep."},
+  {type:"bath",text:"Citrus bath salts — borrowed energy."},
+  {type:"note",text:"I watched you choose me every single day."},
+  {type:"bath",text:"Lavender vanilla sugar scrub."},
+  {type:"note",text:"You made magic out of stress and grocery budgets."},
+  {type:"bath",text:"Oatmeal honey soap."},
+  {type:"note",text:"You complained less than you deserved. Iconic."},
+  {type:"bath",text:"Coffee sugar scrub — places to be."},
+  {type:"note",text:"Your sarcasm is a love language. I’m fluent."},
+  {type:"bath",text:"Eucalyptus soap — clear boundaries."},
+  {type:"note",text:"You didn’t just survive—you showed up."},
+  {type:"bath",text:"Fancy final soap — You made it. Again. Obviously."}
+];
+
+const container=document.getElementById("calendar");
+
+surprises.forEach((s,i)=>{
+  const day=i+1;
+  const item=document.createElement("div"); item.className="calendar-item";
+
+  const door=document.createElement("div");
+  door.className="door locked"; // all doors start locked
+  door.dataset.day=day;
+  door.innerText=day;
+
+  const surprise=document.createElement("div");
+  surprise.className=`surprise ${s.type}`+(day===24?" final":"");
+  surprise.innerText=s.text;
+
+  // Click to open
+  door.addEventListener("click",()=>{
+    door.classList.add("fade-out");
+    setTimeout(()=>{
+      door.style.display="none";
+      surprise.style.display="block";
+      const sp=document.createElement('div');
+      sp.className='sparkle';
+      item.appendChild(sp);
+      setTimeout(()=>sp.remove(),800);
+
+      // Update progress
+      const fill=document.getElementById("fill");
+      const countElem=document.getElementById("count");
+      const opened = container.querySelectorAll(".surprise[style*='block']").length;
+      countElem.innerText=opened;
+      fill.style.width=(opened/24*100)+"%";
+    },400);
+  });
+
+  item.appendChild(door);
+  item.appendChild(surprise);
+  container.appendChild(item);
+});
+
+function updateProgress(){
+  const fill=document.getElementById("fill");
+  const countElem=document.getElementById("count");
+  countElem.innerText=0;
+  fill.style.width="0%";
+}
+updateProgress();
+
+/* Unified Snow Script */
+const Snow=(()=>{
+  let interval=null, snowing=false;
+  function createSnowflake(){
+    const snow=document.createElement("div");
+    snow.className="snowflake";
+    snow.innerText="❄";
+    snow.style.left=Math.random()*100+"vw";
+    snow.style.fontSize=(8+Math.random()*12)+"px";
+    snow.style.opacity=0.4+Math.random()*0.6;
+    snow.style.animationDuration=4+Math.random()*6+"s";
+    document.body.appendChild(snow);
+    setTimeout(()=>snow.remove(),12000);
+  }
+  function start(){if(interval)return; interval=setInterval(createSnowflake,300); snowing=true;}
+  function stop(){clearInterval(interval); interval=null; snowing=false; document.querySelectorAll(".snowflake").forEach(s=>s.remove());}
+  function toggle(){snowing?stop():start();}
+  return {start, stop, toggle};
+})();
+document.addEventListener("DOMContentLoaded",()=>Snow.start());
+document.getElementById("snowToggle").addEventListener("click",()=>Snow.toggle());
+</script>
+
+</body>
+</html>

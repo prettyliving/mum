@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/main.js"></script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customize - Mom's Advent</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1>Customize Mom’s Advent Calendar</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="momscorner.html">Mom's Corner</a>
+  </nav>
+</header>
+
+<main style="text-align:center; padding:2rem;">
+  <p>Add your own surprises, photos, or special messages for Mom!</p>
+  <form style="max-width: 400px; margin: 0 auto;">
+    <label>Day Number (1–25): <input type="number" min="1" max="25" required></label><br><br>
+    <label>Message/Link: <input type="text" required></label><br><br>
+    <label>Upload Image/Video: <input type="file" accept="image/*,video/*"></label><br><br>
+    <label>Pick Theme:
+      <select>
+        <option value="cozy">Cozy</option>
+        <option value="festive">Festive</option>
+        <option value="crafty">Crafty</option>
+        <option value="relax">Relax</option>
+      </select>
+    </label><br><br>
+    <button type="submit" style="padding: 0.5rem 1rem; background-color: var(--muted-red); color: var(--soft-cream); border:none; border-radius:5px;">Save Surprise</button>
+  </form>
+</main>
+
+<footer>
+  Made with ❤️ for all the amazing moms
+</footer>
+</body>
+</html>

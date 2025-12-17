@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mom’s Corner</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+<h1>Mom’s Corner</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="calendar.html">Calendar</a>
+  <a href="fireplace.html">Fireplace</a>
+  <a href="momscorner.html">Mom’s Corner</a>
+  <button id="snowToggle">❄️</button>
+</nav>
+</header>
+
+<main>
+<!-- Search -->
+<section>
+<h2>What do you need right now?</h2>
+<input type="text" id="needSearch" placeholder="stress, sleep, headache, skin, energy…">
+<p style="opacity:0.7;margin-top:0.5rem;">Start typing — this page will gently adjust.</p>
+</section>
+
+<!-- Affirmation Game -->
+<section>
+<h2>💌 A Little Reminder</h2>
+<p style="opacity:0.75;">Click when you need proof.</p>
+<button id="affirmationBtn" style="background:#f2d7e3;">Pull an affirmation</button>
+<div id="affirmationCard"></div>
+</section>
+
+<!-- Gentle Dare Game -->
+<section>
+<h2>🎲 Spin the Gentle Dare</h2>
+<p style="opacity:0.75;">No winners. No losers. Just tiny moments of care.</p>
+<button id="dareBtn" style="background:#dbe7f2;">Spin</button>
+<div id="dareCard"></div>
+</section>
+
+<!-- Micro Challenges -->
+<section>
+<h2>⚡ Mom’s Micro Challenges</h2>
+<p style="opacity:0.75;">Click a challenge and do it for 30 seconds. Tiny wins, big smiles.</p>
+<button id="challengeBtn" style="background:#fce2d7;">Spin a Challenge</button>
+<div id="challengeCard"></div>
+</section>
+
+<footer>made with love for my favorite mom</footer>
+
+<script>
+const PASSWORD="chunkymonkey";
+if(!localStorage.getItem("unlocked")){
+  const input=prompt("This space is just for you 💛");
+  if(input!==PASSWORD){document.body.innerHTML="<h2 style='text-align:center;margin-top:20vh'>Not quite 🤍</h2>"; throw new Error("Locked");}
+  localStorage.setItem("unlocked","true");
+}
+
+/* Snow */
+const Snow=(()=>{
+  let interval=null, snowing=false;
+  function createSnowflake(){const snow=document.createElement("div"); snow.className="snowflake"; snow.innerText="❄"; snow.style.left=Math.random()*100+"vw"; snow.style.fontSize=(8+Math.random()*12)+"px"; snow.style.opacity=0.4+Math.random()*0.6; snow.style.animationDuration=4+Math.random()*6+"s"; document.body.appendChild(snow); setTimeout(()=>snow.remove(),12000);}
+  function start(){if(interval)return; interval=setInterval(createSnowflake,300); snowing=true;}
+  function stop(){clearInterval(interval); interval=null; snowing=false; document.querySelectorAll(".snowflake").forEach(s=>s.remove());}
+  function toggle(){snowing?stop():start();}
+  return {start, stop, toggle};
+})();
+document.addEventListener("DOMContentLoaded",()=>Snow.start());
+document.getElementById("snowToggle").addEventListener("click",()=>Snow.toggle());
+
+/* Affirmations */
+const affirmations=[
+"You raised me alone. I’m amazing. Coincidence? No.",
+"You did the job of two people with half the sleep.",
+"You didn’t just survive—you showed up.",
+"I watched you choose me every single day.",
+"You made magic out of stress and grocery budgets.",
+"You carried more than you should have.",
+"You complained less than you deserved.",
+"Your sarcasm is a love language. I’m fluent."
+];
+document.getElementById("affirmationBtn").addEventListener("click",()=>{
+  const pick=affirmations[Math.floor(Math.random()*affirmations.length)];
+  const card=document.getElementById("affirmationCard");
+  card.innerText=pick;
+  card.style.display="block";
+});
+
+/* Gentle Dares */
+const dares=[
+"Close your eyes and take three slow breaths.",
+"Stretch your shoulders like you’re shrugging off the day.",
+"Drink a sip of water like it matters.",
+"Unclench your jaw.",
+"Put one hand on your chest."
+];
+document.getElementById("dareBtn").addEventListener("click",()=>{
+  const pick=dares[Math.floor(Math.random()*dares.length)];
+  const card=document.getElementById("dareCard");
+  card.innerText=pick;
+  card.style.display="block";
+});
+
+/* Micro Challenges */
+const challenges=[
+"Stretch your arms wide.",
+"Dance for 30 seconds.",
+"Hug your pet.",
+"Smile at yourself in mirror.",
+"Take 3 slow breaths.",
+"Close eyes and wiggle toes.",
+"Make a silly face.",
+"Write one thing that made you laugh."
+];
+document.getElementById("challengeBtn").addEventListener("click",()=>{
+  const pick=challenges[Math.floor(Math.random()*challenges.length)];
+  const card=document.getElementById("challengeCard");
+  card.innerText=pick;
+  card.style.display="block";
+});
+</script>
+
+</body>
+</html>
